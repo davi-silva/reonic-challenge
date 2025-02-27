@@ -7,7 +7,7 @@ import styles from './index.module.scss';
 import { useSimulation } from '@/hooks';
 
 const Simulation = () => {
-  const { errors, handleSubmit, handleSubmitSimulation, register } =
+  const { errors, handleSubmit, handleSubmitSimulation, register, mutation } =
     useSimulation();
 
   return (
@@ -20,32 +20,32 @@ const Simulation = () => {
         name="numChargePoints"
         register={register}
         label="Number of Charge Points"
-        type="number"
+        errorMessage={errors['numChargePoints']?.message}
       />
       <Input
         id="arrivalMultiplier"
         name="arrivalMultiplier"
         register={register}
         label="Arrival Multiplier (%)"
-        type="number"
+        errorMessage={errors['arrivalMultiplier']?.message}
       />
       <Input
         id="consumption"
         name="consumption"
         register={register}
         label="Consumption (kWh/100km)"
-        type="number"
+        errorMessage={errors['consumption']?.message}
       />
       <Input
         id="chargingPower"
         name="chargingPower"
         register={register}
         label="Charging Power (kW)"
-        type="number"
+        errorMessage={errors['chargingPower']?.message}
       />
 
       <Button type="submit" fullWidth padding="1rem">
-        Run Simulation
+        {mutation.isPending ? 'Running simulation...' : 'Run Simulation'}
       </Button>
     </form>
   );

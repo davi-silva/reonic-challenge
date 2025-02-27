@@ -13,6 +13,7 @@
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
     "@nanostores/react": "^0.8.4",
+    "@tanstack/react-query": "^5.66.9",
     "axios": "^1.7.9",
     "nanostores": "^0.11.3",
     "next": "15.1.6",

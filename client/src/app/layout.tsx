@@ -3,6 +3,7 @@ import './globals.css';
 import { Footer, NavigationBar } from '@/layouts';
 
 import type { Metadata } from 'next';
+import { QueryProvider } from '@/components';
 import { Roboto } from 'next/font/google';
 import styles from './layout.module.scss';
 
@@ -24,9 +25,11 @@ export default function RootLayout({
         <title>Reonic Challenge</title>
       </head>
       <body className={`${roboto.className}`}>
-        <NavigationBar />
-        <main className={styles.main}>{children}</main>
-        <Footer />
+        <QueryProvider>
+          <NavigationBar />
+          <main className={styles.main}>{children}</main>
+          <Footer />
+        </QueryProvider>
       </body>
     </html>
   );

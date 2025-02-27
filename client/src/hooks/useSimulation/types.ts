@@ -1,4 +1,11 @@
 export type SimulationInputs = {
+  numChargePoints: string;
+  arrivalMultiplier: string;
+  consumption: string;
+  chargingPower: string;
+};
+
+export type SimulationInputsNumbers = {
   numChargePoints: number;
   arrivalMultiplier: number;
   consumption: number;

@@ -4,8 +4,8 @@ import type { ResultsDisplayProps } from './types';
 
 const ResultsDisplay: FC<ResultsDisplayProps> = ({ results }) => {
   return (
-    <div className="mt-8 rounded border p-4 shadow">
-      <h2 className="mb-2 text-xl font-semibold">Simulation Results</h2>
+    <div>
+      <h2>Simulation Results</h2>
       <p>
         <strong>Total Energy Consumed:</strong> {results.totalEnergy.toFixed(2)}{' '}
         kWh
