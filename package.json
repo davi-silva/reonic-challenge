@@ -1,0 +1,16 @@
+{
+  "name": "reonic-challenge",
+  "version": "1.0.0",
+  "author": "Davi Silva",
+  "private": true,
+  "scripts": {
+    "start:db": "cp default.env .env && docker compose up -d",
+    "start:client": "cd client && npm i && cp default.env .env && npm run build && npm run start",
+    "start:server": "npm run start:db && cd server && npm i && cp default.env .env && npm run migrate && npm run build && npm run start",
+    "start": "concurrently \"npm run start:client\" \"npm run start:server\"" 
+  },
+  "dependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
+

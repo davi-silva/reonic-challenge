@@ -1,0 +1,36 @@
+networks:
+  postgres-network:
+    driver: bridge
+
+volumes:
+  postgres-db:
+    driver: local
+
+services:
+  postgres:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgres
+    env_file:
+      - .env
+    volumes:
+      - postgres-db:/data/postgres
+    expose:
+      - 54325
+    ports:
+      - 5432:5432
+    networks:
+      - postgres-network
+
+  pgadmin4:
+    image: dpage/pgadmin4
+    container_name: pgAdmin4
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - 5050:80
+    networks:
+      - postgres-network
+

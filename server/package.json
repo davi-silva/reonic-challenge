@@ -1,0 +1,46 @@
+{
+  "name": "server",
+  "scripts": {
+    "build": "tsup src",
+    "start": "node dist/server.js",
+    "dev": "tsx watch src/server.ts",
+    "deploy": "yarn && yarn build && yarn start",
+    "test": "vitest",
+    "migrate": "npx prisma migrate dev"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.3.1",
+    "cors": "^2.8.5",
+    "debug": "^4.4.0",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "fast-fuzzy": "^1.12.0",
+    "fuse.js": "^7.1.0",
+    "string-similarity": "^4.0.4",
+    "uuid": "^11.0.5",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.19.0",
+    "@types/cors": "^2.8.17",
+    "@types/debug": "^4.1.12",
+    "@types/express": "^5.0.0",
+    "@types/morgan": "^1.9.9",
+    "@types/node": "^22.13.1",
+    "@types/string-similarity": "^4.0.2",
+    "@types/supertest": "^6.0.2",
+    "@types/uuid": "^10.0.0",
+    "eslint": "^9.19.0",
+    "globals": "^15.14.0",
+    "morgan": "^1.10.0",
+    "prettier": "^3.4.2",
+    "prisma": "^6.3.1",
+    "supertest": "^7.0.0",
+    "tsup": "^8.3.6",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3",
+    "typescript-eslint": "^8.23.0",
+    "vite-tsconfig-paths": "^5.1.4",
+    "vitest": "^3.0.5"
+  }
+}

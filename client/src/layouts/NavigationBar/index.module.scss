@@ -1,0 +1,47 @@
+@use "../../styles/globals.module.scss";
+
+.nav {
+  background-color: globals.$primary-color;
+  width: 100%;
+  height: globals.$navbigation-bar-height;
+  display: flex;
+  align-items: center;
+}
+
+.container {
+  display: flex;
+  width: 1200px;
+  margin: 0 auto;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brand {
+  color: globals.$secondary-color;
+  font-size: 1.2rem;
+  text-decoration: none;
+}
+
+.menu {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  li {
+    list-style: none;
+  }
+}
+
+.menuItem {
+  display: flex;
+  svg,
+  a {
+    color: globals.$secondary-color;
+    text-decoration: none;
+  }
+}
+
+@media (max-width: 1300px) {
+  .container {
+    width: 90%;
+  }
+}

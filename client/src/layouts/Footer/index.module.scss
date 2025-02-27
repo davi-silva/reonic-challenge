@@ -1,0 +1,38 @@
+@use '../../styles/globals.module.scss';
+
+.footer {
+  width: 100%;
+  height: globals.$footer-height;
+  background-color: globals.$primary-color;
+  display: flex;
+  align-items: center;
+}
+
+.container {
+  width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand {
+  font-size: 1rem;
+  color: globals.$secondary-color;
+  text-decoration: none;
+}
+
+.developedBy {
+  color: globals.$secondary-color;
+  a {
+    color: globals.$secondary-color;
+    text-decoration: none;
+
+  }
+}
+
+@media (max-width: 1300px) {
+  .container {
+    width: 90%;
+  }
+}
