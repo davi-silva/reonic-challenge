@@ -1,12 +1,17 @@
 'use client';
 
-import { createSimulation, runSimulation } from '@/services/simulation';
+import {
+  createSimulation,
+  deleteSimulation,
+  getAllSimulations,
+  runSimulation,
+} from '@/services/simulation';
+import { useEffect, useState } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 
 import { simulateEVResolver } from './zod';
 import { useMutation } from '@tanstack/react-query';
 import { useSimulationStore } from '@/stores';
-import { useState } from 'react';
 
 const defaultFields = {
   arrivalMultiplier: '100',
@@ -15,8 +20,14 @@ const defaultFields = {
 };
 
 const useSimulation = () => {
-  const { setResults, results, created, setCreated, resetResults } =
-    useSimulationStore();
+  const {
+    simulations,
+    results,
+    setResults,
+    resetResults,
+    setSimulations,
+    removeSimulation,
+  } = useSimulationStore();
   const [currentIndex, setCurrentIndex] = useState(0);
   const hasResults = results && typeof results === 'object';
   const {
@@ -32,7 +43,6 @@ const useSimulation = () => {
   });
   const { fields, append, remove } = useFieldArray({
     control,
-    // @ts-ignore
     name: 'chargePoints',
   });
 
@@ -48,7 +58,6 @@ const useSimulation = () => {
         setValue(`chargePoints.${i}.power`, '');
       }
 
-      setCreated(data);
       mutationSimulation.mutate(data.id);
     },
   });
@@ -59,14 +68,13 @@ const useSimulation = () => {
       setResults(data);
     },
   });
-
-  // const mutationSimulation = useMutation({
-  //   mutationFn: simulateEV,
-  //   mutationKey: ['simulate'],
-  //   onSuccess: (data) => {
-  //     setResults(data);
-  //   },
-  // });
+  const mutationSimulations = useMutation({
+    mutationKey: ['simulations'],
+    mutationFn: getAllSimulations,
+    onSuccess: (data) => {
+      setSimulations(data);
+    },
+  });
 
   const handleSubmitSimulation = (data: any) => {
     const totalChargePoints = data.chargePoints.reduce(
@@ -87,10 +95,6 @@ const useSimulation = () => {
     };
     mutationForm.mutate(finalData);
   };
-
-  // const handleSimulateEV = (inputId: number) => {
-  //   mutationSimulation.mutate(inputId);
-  // };
 
   const appendChargingPoint = () => {
     append({
@@ -115,6 +119,11 @@ const useSimulation = () => {
     });
   };
 
+  const simulationDeletion = async (id: number) => {
+    const deletedSimulationId = await deleteSimulation(id);
+    removeSimulation(deletedSimulationId);
+  };
+
   return {
     register,
     handleSubmit,
@@ -122,18 +131,17 @@ const useSimulation = () => {
     appendChargingPoint,
     removeChargingPoint,
     resetResults,
+    simulationDeletion,
+    simulations,
+    mutationSimulations,
     errors,
     values: {
       arrivalMultiplier: getValues('arrivalMultiplier'),
       consumption: getValues('consumption'),
     },
     mutationForm,
-    // mutationSimulation,
-    // mutationHistory,
     results,
     hasResults,
-    history,
-    created,
     fields,
     currentIndex,
   };

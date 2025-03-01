@@ -31,10 +31,13 @@ export type SimulationResults = {
   dayData: DayData;
 };
 
+type RemoveSimulationData = { id: string };
+
 export type SimulationStore = {
-  created?: CreateSimulationInputs;
   results?: SimulationResults;
-  setCreated: (data: any) => void;
-  setResults: (data: any) => void;
+  simulations?: SimulationResults[];
+  setResults: (data: SimulationResults) => void;
   resetResults: () => void;
+  setSimulations: (data: SimulationResults[]) => void;
+  removeSimulation: ({ id }: RemoveSimulationData) => void;
 };

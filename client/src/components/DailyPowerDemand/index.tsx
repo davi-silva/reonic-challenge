@@ -1,3 +1,5 @@
+'use client';
+
 import {
   CartesianGrid,
   Line,
@@ -8,8 +10,8 @@ import {
 } from 'recharts';
 import React, { FC } from 'react';
 
-import { Props } from '../types';
-import styles from '../index.module.scss';
+import { Props } from './types';
+import styles from './index.module.scss';
 
 const DailyPowerDemand: FC<Props> = ({ results }) => {
   return (

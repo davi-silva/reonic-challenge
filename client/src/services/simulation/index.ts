@@ -1,4 +1,4 @@
-import { fetchGet, fetchPost } from '@/services/axios';
+import { fetchDelete, fetchGet, fetchPost } from '@/services/axios';
 
 import { CreateSimulationInputs } from '@/stores/simulation/types';
 
@@ -20,5 +20,15 @@ export const runSimulation = async (id: number) => {
 
 export const getAllSimulations = async () => {
   const response = await fetchGet('/ev/simulations');
+  return response.data;
+};
+
+export const getSimulation = async (id: number) => {
+  const response = await fetchGet(`/ev/simulation/${id}`);
+  return response.data;
+};
+
+export const deleteSimulation = async (id: number) => {
+  const response = await fetchDelete(`/ev/simulation/${id}`);
   return response.data;
 };

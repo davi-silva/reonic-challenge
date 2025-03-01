@@ -1,17 +1,22 @@
-'use server';
+'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
+
 import { Simulations } from '@/components';
-import { getAllSimulations } from '@/services/simulation';
 import styles from './index.module.scss';
+import { useSimulation } from '@/hooks';
 
-const SimulationsPage = async () => {
-  const simulations = await getAllSimulations();
+const SimulationsPage = () => {
+  const { mutationSimulations, simulations } = useSimulation();
+
+  useEffect(() => {
+    mutationSimulations.mutate();
+  }, []);
 
   return (
     <div className={styles.container}>
       <h1 className={styles.heading}>Past Simulations</h1>
-      <Simulations simulations={simulations} />
+      {simulations && <Simulations simulations={simulations} />}
     </div>
   );
 };

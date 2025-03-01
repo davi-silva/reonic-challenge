@@ -1,13 +1,24 @@
+'use client';
+
+import { FaChartBar, FaTrashAlt } from 'react-icons/fa';
 import React, { FC } from 'react';
 
 import Button from '@/components/Button';
-import { FaChartBar } from 'react-icons/fa';
 import { SimulationsProps } from './types';
 import styles from './index.module.scss';
+import { useSimulation } from '@/hooks';
 
 const Simulations: FC<SimulationsProps> = ({ simulations }) => {
+  const { simulationDeletion } = useSimulation();
+
   return (
     <ul className={styles.list}>
+      {simulations.length === 0 && (
+        <div className={styles.noSimulations}>
+          <p>No simulations yet</p>
+          <Button href="/">Simulate EV Charges</Button>
+        </div>
+      )}
       {simulations.map((sim) => (
         <li key={sim.id} className={styles.item}>
           <div className={styles.header}>
@@ -17,9 +28,18 @@ const Simulations: FC<SimulationsProps> = ({ simulations }) => {
                 {sim.totalEnergy ? 'Completed' : 'Pending'}
               </span>
             </div>
-            <Button href={`/simulation/${sim.id}`} title="Show Charts">
-              <FaChartBar />
-            </Button>
+            <div className={styles.buttons}>
+              <Button href={`/simulation/${sim.id}`} title="Show Charts">
+                <FaChartBar />
+              </Button>
+              <Button
+                type="button"
+                title="Delete Simulation"
+                onClick={() => simulationDeletion(sim.id)}
+              >
+                <FaTrashAlt />
+              </Button>
+            </div>
           </div>
           <div className={styles.content}>
             <div className={styles.data}>

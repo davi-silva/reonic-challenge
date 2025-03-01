@@ -1,8 +1,10 @@
+'use client';
+
 import { Bar, BarChart, CartesianGrid, Tooltip, XAxis, YAxis } from 'recharts';
 import React, { FC } from 'react';
 
-import { Props } from '../types';
-import styles from '../index.module.scss';
+import { Props } from './types';
+import styles from './index.module.scss';
 
 const ConcurrencyFactor: FC<Props> = ({ results }) => {
   return (

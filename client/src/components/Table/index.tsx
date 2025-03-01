@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { Props } from '../types';
+import { Props } from './types';
 import styles from './index.module.scss';
 
 const Table: FC<Props> = ({ results }) => {

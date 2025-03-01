@@ -1,12 +1,10 @@
 'use client';
 
+import { ConcurrencyFactor, DailyPowerDemand, Table } from '@/components';
 import { useApp, useSimulation } from '@/hooks';
 
-import ConcurrencyFactor from './ConcurrencyFactor';
-import DailyPowerDemand from './DailyPowerDemand';
 import { FaPlus } from 'react-icons/fa6';
 import React from 'react';
-import Table from './Table';
 import styles from './index.module.scss';
 
 const Results = () => {

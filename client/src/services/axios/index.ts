@@ -28,3 +28,12 @@ export const fetchPost = async (
     throw error;
   }
 };
+
+export const fetchDelete = async (endpoint: string, params?: object) => {
+  try {
+    const response = axios.delete(SERVER_URI + endpoint, params);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
