@@ -13,24 +13,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model SimulationInput {
-  id                Int                @id @default(autoincrement())
-  numChargePoints   Int
-  arrivalMultiplier Float
-  consumption       Float
-  chargingPower     Float
-  results           SimulationResult[]
+model Simulation {
+  id                  Int      @id @default(autoincrement())
+  numChargePoints     Int
+  arrivalMultiplier   Float    @default(100.0)
+  consumption         Float    @default(18.0)
+  chargingPower       Float    @default(11.0)
+  totalEnergy         Float?
+  maxPower            Float?
+  theoreticalMaxPower Float?
+  concurrencyFactor   Float?
+  chargingEvents      Int?
+  createdAt           DateTime @default(now())
 
-  @@map("simulation_input")
-}
-
-model SimulationResult {
-  id          Int             @id @default(autoincrement())
-  inputId     Int
-  input       SimulationInput @relation(fields: [inputId], references: [id])
-  totalEnergy Float
-  peakPower   Float
-  concurrency Float
-
-  @@map("simulation_result")
+  @@map("simulations")
 }

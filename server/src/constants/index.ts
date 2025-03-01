@@ -5,11 +5,11 @@ export const isDevelopment = NODE_ENV === 'development';
 
 export const NUM_CHARGEPOINTS = 20;
 export const CHARGING_POWER = 11;
-export const INTERVAL_DURATION = 0.25;
-export const ENERGY_PER_INTERVAL = CHARGING_POWER * INTERVAL_DURATION;
+export const TICK_DURATION = 0.25;
+export const ENERGY_PER_TICK = CHARGING_POWER * TICK_DURATION;
 export const DAYS = 365;
-export const INTERVALS_PER_DAY = 96;
-export const TOTAL_INTERVALS = DAYS * INTERVALS_PER_DAY;
+export const TICKS_PER_DAY = 96;
+export const TOTAL_TICKS = DAYS * TICKS_PER_DAY;
 export const ENERGY_PER_100KM = 18;
 
 export const ARRIVAL_PROBABILITIES: number[] = [

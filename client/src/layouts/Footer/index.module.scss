@@ -1,4 +1,4 @@
-@use '../../styles/globals.module.scss';
+@use "../../styles/globals.module.scss";
 
 .footer {
   width: 100%;
@@ -27,7 +27,6 @@
   a {
     color: globals.$secondary-color;
     text-decoration: none;
-
   }
 }
 

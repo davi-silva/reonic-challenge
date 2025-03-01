@@ -1,6 +1,6 @@
 import './globals.css';
 
-import { Footer, NavigationBar } from '@/layouts';
+import { AllModals, Footer, NavigationBar } from '@/layouts';
 
 import type { Metadata } from 'next';
 import { QueryProvider } from '@/components';
@@ -27,6 +27,7 @@ export default function RootLayout({
       <body className={`${roboto.className}`}>
         <QueryProvider>
           <NavigationBar />
+          <AllModals />
           <main className={styles.main}>{children}</main>
           <Footer />
         </QueryProvider>

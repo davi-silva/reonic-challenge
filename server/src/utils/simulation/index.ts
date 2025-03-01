@@ -2,73 +2,135 @@ import {
   ARRIVAL_PROBABILITIES,
   DEMANDS,
   DEMAND_PROBABILITIES,
-  INTERVALS_PER_DAY,
-  INTERVAL_DURATION,
-  TOTAL_INTERVALS,
+  TICKS_PER_DAY,
+  TICK_DURATION,
+  TOTAL_TICKS,
 } from '@/constants';
 
 import { ChargePoint } from './types';
 import { sampleDemand } from '@/utils';
+import seedrandom from 'seedrandom';
 
-export const runSimulation = (
-  numChargePoints: number,
-  arrivalMultiplier: number,
-  consumption: number,
-  chargingPower: number,
-): { totalEnergy: number; peakPower: number; concurrency: number } => {
-  // Initialize charge points
-  const chargePoints: ChargePoint[] = Array(numChargePoints)
-    .fill(null)
-    .map(() => ({
-      isOccupied: false,
-      remainingEnergy: 0,
-    }));
+// Helper function to check if a day is within the DST period
+function isDST(dayOfYear: number) {
+  const dstStart = 71; // March 12, 2023 (day 71, 0-based)
+  const dstEnd = 309; // November 5, 2023 (day 309, 0-based)
+  return dayOfYear >= dstStart && dayOfYear < dstEnd;
+}
+
+// Main simulation function
+export const runSimulation = ({
+  numChargePoints = 15,
+  arrivalMultiplier = 100,
+  consumption = 18,
+  chargingPower = 11,
+  seed = 'fixed-seed',
+}) => {
+  Math.random = seedrandom(seed);
+
+  const powerPerChargepoint = chargingPower;
+  const energyPerTick = powerPerChargepoint * TICK_DURATION;
+  const adjustedConsumption = consumption;
+
+  const hours = ARRIVAL_PROBABILITIES.map((p) => (p * arrivalMultiplier) / 100);
+
+  function sampleKm() {
+    const r = Math.random();
+    for (let i = 0; i < DEMAND_PROBABILITIES.length; i++) {
+      if (r < DEMAND_PROBABILITIES[i]) return DEMANDS[i];
+    }
+    return DEMANDS[DEMANDS.length - 1];
+  }
+
+  let chargepoints = Array.from({ length: numChargePoints }, () => ({
+    state: 'available',
+    remainingEnergy: 0,
+  }));
 
   let totalEnergy = 0;
   let maxPower = 0;
+  let chargingEvents = 0;
+  const powerPerTick = new Array(TOTAL_TICKS).fill(0); // Use regular array instead of Float64Array for simplicity
+  let maxPowerDay = 0;
 
-  // Simulate over all intervals
-  for (let interval = 0; interval < TOTAL_INTERVALS; interval++) {
-    const hour = Math.floor((interval % INTERVALS_PER_DAY) / 4);
-    const pHour = ARRIVAL_PROBABILITIES[hour];
-    const pInterval = (pHour / 4) * (arrivalMultiplier / 100);
+  for (let tick = 0; tick < TOTAL_TICKS; tick++) {
+    let currentPower = 0;
+    const dayOfYear = Math.floor(tick / TICKS_PER_DAY);
+    const tickInDay = tick % TICKS_PER_DAY;
+    let hour = Math.floor(tickInDay / 4);
 
-    let intervalTotalPower = 0;
+    if (isDST(dayOfYear)) {
+      hour = (hour - 1 + 24) % 24;
+    }
 
-    for (const cp of chargePoints) {
-      if (cp.isOccupied) {
-        const energyDelivered = Math.min(
-          chargingPower * INTERVAL_DURATION,
-          cp.remainingEnergy,
-        );
-        const power = energyDelivered / INTERVAL_DURATION;
-        intervalTotalPower += power;
-        totalEnergy += energyDelivered;
-        cp.remainingEnergy -= energyDelivered;
-
-        if (cp.remainingEnergy <= 0) cp.isOccupied = false;
-      } else {
-        if (Math.random() < pInterval) {
-          const demandKm = sampleDemand(DEMANDS, DEMAND_PROBABILITIES);
-          if (demandKm > 0) {
-            cp.remainingEnergy = (demandKm / 100) * consumption; // Convert km to kWh
-            cp.isOccupied = true;
+    for (let cp of chargepoints) {
+      if (cp.state === 'available') {
+        const pArrival = hours[hour] / 4;
+        if (Math.random() < pArrival) {
+          const km = sampleKm();
+          if (km > 0) {
+            const energyNeeded = (km / 100) * adjustedConsumption;
+            cp.remainingEnergy = energyNeeded;
+            cp.state = 'charging';
+            chargingEvents++;
           }
         }
       }
+
+      if (cp.state === 'charging') {
+        const energyDelivered = Math.min(cp.remainingEnergy, energyPerTick);
+        const power = energyDelivered / 0.25;
+        currentPower += power;
+        totalEnergy += energyDelivered;
+        cp.remainingEnergy -= energyDelivered;
+        if (cp.remainingEnergy <= 0) cp.state = 'available';
+      }
     }
 
-    maxPower = Math.max(maxPower, intervalTotalPower);
+    powerPerTick[tick] = currentPower;
+    if (currentPower > maxPower) {
+      maxPower = currentPower;
+      maxPowerDay = dayOfYear;
+    }
   }
 
-  // Calculate concurrency factor
-  const theoreticalMaxPower = numChargePoints * chargingPower;
-  const concurrency =
-    theoreticalMaxPower > 0 ? maxPower / theoreticalMaxPower : 0;
+  const theoreticalMaxPower = numChargePoints * powerPerChargepoint;
+  const concurrencyFactor = maxPower / theoreticalMaxPower;
+
+  // Extract exemplary day data (max power day)
+  const dayDataStart = maxPowerDay * TICKS_PER_DAY;
+  const dayData = Array.from({ length: TICKS_PER_DAY }, (_, i) => ({
+    time: `${Math.floor(i / 4)}:${(i % 4) * 15}`.padStart(5, '0'),
+    power: powerPerTick[dayDataStart + i],
+  }));
 
   return {
     totalEnergy,
-    peakPower: maxPower,
-    concurrency,
+    theoreticalMaxPower,
+    maxPower,
+    concurrencyFactor,
+    chargingEvents,
+    dayData,
   };
+};
+
+// Simulate concurrency for 1 to 30 chargepoints
+export const simulateConcurrency = ({
+  arrivalMultiplier = 100,
+  consumption = 18,
+  chargingPower = 11,
+  seed = 'fixed-seed',
+}) => {
+  const concurrencyData = [];
+  for (let n = 1; n <= 30; n++) {
+    const { concurrencyFactor } = runSimulation({
+      numChargePoints: n,
+      arrivalMultiplier,
+      consumption,
+      chargingPower,
+      seed: `${seed}-${n}`,
+    });
+    concurrencyData.push({ chargepoints: n, concurrency: concurrencyFactor });
+  }
+  return concurrencyData;
 };

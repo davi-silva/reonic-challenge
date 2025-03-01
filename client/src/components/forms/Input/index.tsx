@@ -15,8 +15,6 @@ const Input: FC<InputProps> = ({
   type,
   errorMessage,
   width,
-  focus = true,
-  dataTestId,
   ...rest
 }) => (
   <div className={styles.inputContainer}>
@@ -37,10 +35,8 @@ const Input: FC<InputProps> = ({
       id={id}
       style={{
         width,
-        ...(focus && { borderColor: '#000' }),
       }}
       {...rest}
-      data-testid={dataTestId}
     />
     {errorMessage && (
       <span className={styles.errorMessage}>{errorMessage.toString()}</span>

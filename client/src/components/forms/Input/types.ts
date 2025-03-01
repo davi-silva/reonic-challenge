@@ -19,6 +19,4 @@ export type InputProps = {
     | Merge<FieldError, FieldErrorsImpl<any>>
     | undefined;
   width?: string;
-  focus?: boolean;
-  dataTestId?: string;
 };

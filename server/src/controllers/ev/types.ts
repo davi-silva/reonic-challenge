@@ -6,5 +6,5 @@ export type EvInputs = {
 };
 
 export type EvSimulate = {
-  inputId: number;
+  id: number;
 };

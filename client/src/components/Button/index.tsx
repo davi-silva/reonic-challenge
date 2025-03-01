@@ -9,17 +9,14 @@ const Button: FC<ButtonProps> = ({
   href,
   theme = 'primary',
   padding,
-  align = 'center',
   size = 16,
   fullWidth = false,
   isDisabled = false,
   dataTestId,
   onClick,
 }) => {
-  const primary = theme === 'primary' ? styles.primary : null;
-  const secondary = theme === 'secondary' ? styles.secondary : null;
-  const alignment =
-    align === 'center' ? 'center' : align === 'left' ? 'start' : 'end';
+  const primary = theme === 'primary' ? styles.primary : '';
+  const secondary = theme === 'secondary' ? styles.secondary : '';
 
   return (
     <>
@@ -29,9 +26,9 @@ const Button: FC<ButtonProps> = ({
           className={`${styles.button} ${primary} ${secondary}`}
           style={{
             padding,
-            textAlign: alignment,
             fontSize: `${size}px`,
-            ...(fullWidth ? { width: '100%' } : {}),
+            ...(fullWidth && { width: '100%' }),
+            ...(isDisabled && { cursor: 'default' }),
           }}
           data-testid={dataTestId}
         >
@@ -45,9 +42,9 @@ const Button: FC<ButtonProps> = ({
           disabled={isDisabled}
           style={{
             padding,
-            textAlign: alignment,
             fontSize: `${size}px`,
-            ...(fullWidth ? { width: '100%' } : {}),
+            ...(fullWidth && { width: '100%' }),
+            ...(isDisabled && { cursor: 'default' }),
           }}
           data-testid={dataTestId}
         >
