@@ -17,3 +17,8 @@ export const runSimulation = async (id: number) => {
   const response = await fetchPost(`/ev/simulations/${id}/run`, {});
   return response.data;
 };
+
+export const getAllSimulations = async () => {
+  const response = await fetchGet('/ev/simulations');
+  return response.data;
+};

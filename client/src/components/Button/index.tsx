@@ -13,6 +13,7 @@ const Button: FC<ButtonProps> = ({
   fullWidth = false,
   isDisabled = false,
   dataTestId,
+  title,
   onClick,
 }) => {
   const primary = theme === 'primary' ? styles.primary : '';
@@ -31,6 +32,7 @@ const Button: FC<ButtonProps> = ({
             ...(isDisabled && { cursor: 'default' }),
           }}
           data-testid={dataTestId}
+          title={title}
         >
           {children}
         </Link>
@@ -47,6 +49,7 @@ const Button: FC<ButtonProps> = ({
             ...(isDisabled && { cursor: 'default' }),
           }}
           data-testid={dataTestId}
+          title={title}
         >
           {children}
         </button>

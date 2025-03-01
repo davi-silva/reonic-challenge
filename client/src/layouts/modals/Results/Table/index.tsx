@@ -1,20 +1,21 @@
 import React, { FC } from 'react';
 
-import { TableProps } from './types';
+import { Props } from '../types';
+import styles from './index.module.scss';
 
-const Table: FC<TableProps> = ({ results }) => {
+const Table: FC<Props> = ({ results }) => {
   return (
-    <table>
-      <thead>
+    <table className={styles.table}>
+      <thead className={styles.tableHead}>
         <tr>
-          <th>Total Energy Charged</th>
-          <th>Theoretical Max Power</th>
-          <th>Actual Max Power</th>
-          <th>Concurrency Factor</th>
-          <th>Charging Events</th>
+          <th title="Total Energy Charged">TEC</th>
+          <th title="Theoretical Max Power">TMP</th>
+          <th title="Actual Max Power">AMP</th>
+          <th title="Concurrency Factor">CP</th>
+          <th title="Charging Events">CE</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody className={styles.tableBody}>
         <tr>
           <td>
             <span>{results.totalEnergy.toFixed(2)} kWh</span>

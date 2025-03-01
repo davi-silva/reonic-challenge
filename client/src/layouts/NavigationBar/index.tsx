@@ -1,3 +1,4 @@
+import { Button } from '@/components';
 import { CHALLENGE_URL } from '@/constants';
 import { FaGithub } from 'react-icons/fa6';
 import Link from 'next/link';
@@ -13,6 +14,7 @@ const NavigationBar = () => {
         </Link>
 
         <ul className={styles.menu}>
+          <Button href="/simulations">Simulations</Button>
           <li className={styles.menuItem}>
             <Link href={CHALLENGE_URL} target="_blank">
               <FaGithub size={24} />

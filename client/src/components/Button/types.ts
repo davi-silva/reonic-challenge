@@ -13,5 +13,6 @@ export type ButtonProps = {
   fullWidth?: boolean;
   isDisabled?: boolean;
   dataTestId?: string;
+  title?: string;
   onClick?: () => void;
 };
