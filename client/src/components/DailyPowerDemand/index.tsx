@@ -10,15 +10,19 @@ import {
 } from 'recharts';
 import React, { FC } from 'react';
 
-import { Props } from './types';
+import { DailyPowerDemandProps } from './types';
 import styles from './index.module.scss';
 
-const DailyPowerDemand: FC<Props> = ({ results }) => {
+const DailyPowerDemand: FC<DailyPowerDemandProps> = ({
+  results,
+  width = 600,
+  height = 300,
+}) => {
   return (
     <div className={styles.chartContainer}>
       <h3>Exemplary Day Power Demand (kW)</h3>
       <div>
-        <LineChart width={600} height={300} data={results.dayData}>
+        <LineChart width={width} height={height} data={results.dayData}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="time" />
           <YAxis />

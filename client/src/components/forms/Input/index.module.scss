@@ -24,7 +24,7 @@
 
 .input {
   background-color: white;
-  color: #000;
+  color: globals.$black;
   padding: 1rem;
   border: 1px solid globals.$input-border-color;
   border-radius: 0.4rem;
@@ -53,4 +53,8 @@
 .errorMessage {
   color: globals.$black;
   font-size: 0.9rem;
+}
+
+.disabled {
+  background-color: globals.$disabled-input-background-color;
 }

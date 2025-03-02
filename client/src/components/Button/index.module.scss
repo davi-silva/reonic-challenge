@@ -1,4 +1,4 @@
-@use '../../styles/globals.module.scss';
+@use "../../styles/globals.module.scss";
 
 .button {
   padding: 0.5rem 0.8rem;
@@ -26,7 +26,4 @@
   background-color: globals.$primary-color;
   color: globals.$secondary-color;
   border: 1px solid globals.$secondary-color;
-
 }
-
-

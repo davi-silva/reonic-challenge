@@ -1,7 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
-import { ZodValidateInputs, ZodValidateSimulate } from './zod';
+import { ZodValidateCreateSimulation, ZodValidateSimulate } from './zod';
 
-export const validateInputs = (
+import { EvSimulate } from '@/controllers/ev/types';
+
+export const validateCreateSimulation = (
   req: Request,
   res: Response,
   next: NextFunction,
@@ -12,7 +14,7 @@ export const validateInputs = (
     return res.status(400).send({ error: 'body is required' });
   }
 
-  const validated = ZodValidateInputs.safeParse(body);
+  const validated = ZodValidateCreateSimulation.safeParse(body);
 
   if (validated.error) {
     return res.status(400).send({
@@ -23,18 +25,18 @@ export const validateInputs = (
   next();
 };
 
-export const validateSimulate = (
-  req: Request,
+export const validateIdParam = (
+  req: Request<EvSimulate, {}, {}>,
   res: Response,
   next: NextFunction,
 ) => {
-  const body = req.body;
+  const params = req.params;
 
-  if (!body) {
-    return res.status(400).send({ error: 'body is required' });
+  if (!params) {
+    return res.status(400).send({ error: 'id is required' });
   }
 
-  const validated = ZodValidateSimulate.safeParse(body);
+  const validated = ZodValidateSimulate.safeParse(params);
 
   if (validated.error) {
     return res.status(400).send({

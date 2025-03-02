@@ -99,10 +99,16 @@ export const runSimulation = ({
 
   // Extract exemplary day data (max power day)
   const dayDataStart = maxPowerDay * TICKS_PER_DAY;
-  const dayData = Array.from({ length: TICKS_PER_DAY }, (_, i) => ({
-    time: `${Math.floor(i / 4)}:${(i % 4) * 15}`.padStart(5, '0'),
-    power: powerPerTick[dayDataStart + i],
-  }));
+  const dayData = Array.from({ length: TICKS_PER_DAY }, (_, i) => {
+    const hours = Math.floor(i / 4)
+      .toString()
+      .padStart(2, '0');
+    const minutes = ((i % 4) * 15).toString().padStart(2, '0');
+    return {
+      time: `${hours}:${minutes}`,
+      power: powerPerTick[dayDataStart + i] || 0,
+    };
+  });
 
   return {
     totalEnergy,

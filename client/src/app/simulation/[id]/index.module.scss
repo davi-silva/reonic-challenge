@@ -1,9 +1,21 @@
+@use "../../../styles/globals.module.scss";
+
 .container {
   display: flex;
   flex-direction: column;
   gap: 1rem;
   align-items: center;
   width: 100%;
+}
+
+.modal {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background-color: globals.$white;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  box-shadow: globals.$box-shadow;
 }
 
 .heading {
@@ -14,4 +26,9 @@
   display: grid;
   grid-template-columns: repeat(2, 50%);
   margin-top: 1rem;
+}
+
+.rowCell {
+  display: flex;
+  justify-content: center;
 }

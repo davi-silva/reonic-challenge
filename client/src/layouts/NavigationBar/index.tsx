@@ -14,7 +14,12 @@ const NavigationBar = () => {
         </Link>
 
         <ul className={styles.menu}>
-          <Button href="/simulations">Simulations</Button>
+          <li>
+            <Button href="/">Simulator</Button>
+          </li>
+          <li>
+            <Button href="/simulations">Past Simulations</Button>
+          </li>
           <li className={styles.menuItem}>
             <Link href={CHALLENGE_URL} target="_blank">
               <FaGithub size={24} />

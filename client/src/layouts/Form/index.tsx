@@ -26,6 +26,8 @@ const Form = () => {
 
   const styleMainButton = results ? styles.mainButtonsRow : '';
 
+  console.log({ errors });
+
   return (
     <form
       onSubmit={handleSubmit(handleSubmitSimulation)}
@@ -48,27 +50,42 @@ const Form = () => {
         disabled={hasResults}
       />
       <div className={styles.inputsGrid}>
-        {fields.map((_field, index) => (
-          <Fragment key={index}>
-            <Input
-              id={`chargePoints.${index}.count`}
-              name={`chargePoints.${index}.count`}
-              register={register}
-              label="Number of Charge Points"
-              // errorMessage={errors['count']?.message}
-              disabled={hasResults}
-            />
+        {fields.map((_field, index) => {
+          console.log({
+            errorsChargingpoint: errors.chargePoints
+              ? errors.chargePoints[index]
+              : '',
+          });
+          return (
+            <Fragment key={index}>
+              <Input
+                id={`chargePoints.${index}.count`}
+                name={`chargePoints.${index}.count`}
+                register={register}
+                label="Number of Charge Points"
+                errorMessage={
+                  errors.chargePoints
+                    ? errors.chargePoints[index]?.count?.message
+                    : undefined
+                }
+                disabled={hasResults}
+              />
 
-            <Input
-              id={`chargePoints.${index}.power`}
-              name={`chargePoints.${index}.power`}
-              register={register}
-              label="Charging Power (kW)"
-              // errorMessage={errors['power']?.message}
-              disabled={hasResults}
-            />
-          </Fragment>
-        ))}
+              <Input
+                id={`chargePoints.${index}.power`}
+                name={`chargePoints.${index}.power`}
+                register={register}
+                label="Charging Power (kW)"
+                errorMessage={
+                  errors.chargePoints
+                    ? errors.chargePoints[index]?.power?.message
+                    : undefined
+                }
+                disabled={hasResults}
+              />
+            </Fragment>
+          );
+        })}
       </div>
 
       <div className={styles.buttons}>

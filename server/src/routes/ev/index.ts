@@ -8,22 +8,25 @@ import {
   simulate,
   updateSimulation,
 } from '@/controllers';
-import { validateInputs, validateSimulate } from './middleware';
+import {
+  validateCreateSimulation,
+  validateIdParam,
+  validateInputs,
+  validateSimulate,
+} from './middleware';
 
 import { Router } from 'express';
 
 const router = Router();
 
-router.post('/create', createSimulation);
+router.post('/create', validateCreateSimulation, createSimulation);
 
 router.get('/simulations', getAllSimulations);
 
-router.get('/simulation/:id', getSimulation);
+router.get('/simulation/:id', validateIdParam, getSimulation);
 
-router.put('/simulation/:id', updateSimulation);
+router.delete('/simulation/:id', validateIdParam, deleteSimulation);
 
-router.delete('/simulation/:id', deleteSimulation);
-
-router.post('/simulations/:id/run', simulate);
+router.post('/simulations/:id/run', validateIdParam, simulate);
 
 export default router;

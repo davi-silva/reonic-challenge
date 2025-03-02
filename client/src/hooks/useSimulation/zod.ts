@@ -14,18 +14,10 @@ const SimulateEV = z
       })
     ),
   })
-  .superRefine(({ arrivalMultiplier, chargePoints }, ctx) => {
+  .superRefine(({ arrivalMultiplier, chargePoints, consumption }, ctx) => {
     const isArrivalMultiplierValid = arrivalMultiplier.match(regex);
-    // const isChargingPowerValid = chargingPower.match(regex);
-    // const isConsumptionValid = consumption.match(regex);
+    const isConsumptionValid = consumption.match(regex);
 
-    // if (isConsumptionValid && isConsumptionValid?.length > 0) {
-    //   ctx.addIssue({
-    //     code: 'custom',
-    //     path: ['consumption'],
-    //     message: 'Consumption must be a number',
-    //   });
-    // }
     if (isArrivalMultiplierValid && isArrivalMultiplierValid?.length > 0) {
       ctx.addIssue({
         code: 'custom',
@@ -33,17 +25,16 @@ const SimulateEV = z
         message: 'Arrival Multipler must be a number',
       });
     }
-    // if (isChargingPowerValid && isChargingPowerValid?.length > 0) {
-    //   ctx.addIssue({
-    //     code: 'custom',
-    //     path: ['chargingPower'],
-    //     message: 'Charging Power must be a number',
-    //   });
-    // }
+    if (isConsumptionValid && isConsumptionValid?.length > 0) {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['consumption'],
+        message: 'Consumption must be a number',
+      });
+    }
 
     const parsedArrivalMultiplier = parseInt(arrivalMultiplier);
-    // const parsedConsumption = parseFloat(consumption);
-    // const parsedChargingPower = parseFloat(chargingPower);
+    const parsedConsumption = parseFloat(consumption);
 
     if (parsedArrivalMultiplier < 20 || parsedArrivalMultiplier > 200) {
       ctx.addIssue({
@@ -52,20 +43,44 @@ const SimulateEV = z
         message: 'Arrival multiplier must be between 20 and 200',
       });
     }
-    // if (parsedConsumption <= 0) {
-    //   ctx.addIssue({
-    //     code: 'custom',
-    //     path: ['consumption'],
-    //     message: 'Consumption must be greater than 0',
-    //   });
-    // }
-    // if (parsedChargingPower <= 0) {
-    //   ctx.addIssue({
-    //     code: 'custom',
-    //     path: ['chargingPower'],
-    //     message: 'Charging power must be greater than 0',
-    //   });
-    // }
+    if (parsedConsumption <= 0) {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['consumption'],
+        message: 'Consumption must be greater than 0',
+      });
+    }
+
+    chargePoints.forEach((chargePoint, index) => {
+      if (regex.test(chargePoint.count)) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: [`chargePoints.${index}.count`],
+          message: `Number of Charge Points must be a  number`,
+        });
+      }
+      if (regex.test(chargePoint.power)) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: [`chargePoints.${index}.power`],
+          message: `Charging Power must be a number`,
+        });
+      }
+      if (regex.test(chargePoint.count) && Number(chargePoint.count) <= 0) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: [`chargePoints.${index}.count`],
+          message: `Number of Charge Points must be greater than 0`,
+        });
+      }
+      if (regex.test(chargePoint.power) && Number(chargePoint.power) <= 0) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: [`chargePoints.${index}.power`],
+          message: `Charging Power must be greater than 0`,
+        });
+      }
+    });
   });
 
 export const simulateEVResolver = zodResolver(SimulateEV);

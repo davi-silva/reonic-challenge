@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
 
-export type Theme = 'primary' | 'secondary' | 'ghost' | 'transparent';
+export type Theme = 'primary' | 'secondary' | 'tertiary';
 
 export type ButtonProps = {
   type?: 'button' | 'submit';

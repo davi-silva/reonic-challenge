@@ -1,5 +1,7 @@
 import { SimulationResults } from '@/stores/simulation/types';
 
-export type Props = {
+export type DailyPowerDemandProps = {
   results: SimulationResults;
+  width?: number;
+  height?: number;
 };
