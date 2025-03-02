@@ -7,7 +7,6 @@ import {
   TOTAL_TICKS,
 } from '@/constants';
 
-import { ChargePoint } from './types';
 import { sampleDemand } from '@/utils';
 import seedrandom from 'seedrandom';
 
@@ -34,14 +33,6 @@ export const runSimulation = ({
 
   const hours = ARRIVAL_PROBABILITIES.map((p) => (p * arrivalMultiplier) / 100);
 
-  function sampleKm() {
-    const r = Math.random();
-    for (let i = 0; i < DEMAND_PROBABILITIES.length; i++) {
-      if (r < DEMAND_PROBABILITIES[i]) return DEMANDS[i];
-    }
-    return DEMANDS[DEMANDS.length - 1];
-  }
-
   let chargepoints = Array.from({ length: numChargePoints }, () => ({
     state: 'available',
     remainingEnergy: 0,
@@ -67,7 +58,7 @@ export const runSimulation = ({
       if (cp.state === 'available') {
         const pArrival = hours[hour] / 4;
         if (Math.random() < pArrival) {
-          const km = sampleKm();
+          const km = sampleDemand(DEMANDS, DEMAND_PROBABILITIES);
           if (km > 0) {
             const energyNeeded = (km / 100) * adjustedConsumption;
             cp.remainingEnergy = energyNeeded;
