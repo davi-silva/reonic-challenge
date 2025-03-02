@@ -52,13 +52,24 @@ nvm install 20  # Node.js LTS version
 npm install -g pm2
 ```
 
+#### d. Install Git
+```
+sudo yum install git
+```
+
 ### 3. Deploy Application
-#### a. Git clone the repository
+
+#### a. Include ssh key to repository to be able to clone the codebase.
+```
+ssh-keygen -t ed25519 -C "your_email@example.com"
+```
+
+#### b. Git clone the repository
 ```
 mkdir app && git clone git@github.com:davi-silva/reonic-challenge.git ./app
 ```
 
-#### b. Install npm dependencies
+#### c. Install npm dependencies
 ```
 npm i && cd client/ && npm i && cd ../server && npm i
 ```
@@ -96,6 +107,8 @@ DATABASE_URL="postgresql://postgres:postgres@127.0.0.1:5432/postgres?schema=publ
 sudo yum update -y
 sudo yum install docker -y
 sudo service docker start
+sudo curl -L https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
 ```
 
 #### b. Run Postgres container

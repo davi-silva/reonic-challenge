@@ -2,6 +2,8 @@
 
 Challenge proposed by Reonic as part of the hiring process.
 
+The production ready build is already live and available on [http://44.203.141.244:3000/](http://44.203.141.244:3000/)
+
 ## Project repository
 [Reonic Challenge repository](https://github.com/davi-silva/reonic-challenge)
 
