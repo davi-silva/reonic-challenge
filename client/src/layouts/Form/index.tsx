@@ -38,6 +38,7 @@ const Form = () => {
         label="Arrival Multiplier (%)"
         errorMessage={errors['arrivalMultiplier']?.message}
         disabled={hasResults}
+        dataTestId="arrivalMultiplier"
       />
       <Input
         id="consumption"
@@ -46,6 +47,7 @@ const Form = () => {
         label="Consumption (kWh/100km)"
         errorMessage={errors['consumption']?.message}
         disabled={hasResults}
+        dataTestId="consumption"
       />
       <div className={styles.inputsGrid}>
         {fields.map((_field, index) => {
@@ -62,6 +64,7 @@ const Form = () => {
                     : undefined
                 }
                 disabled={hasResults}
+                dataTestId={`chargePoints.${index}.count`}
               />
 
               <Input
@@ -75,6 +78,7 @@ const Form = () => {
                     : undefined
                 }
                 disabled={hasResults}
+                dataTestId={`chargePoints.${index}.power`}
               />
             </Fragment>
           );
@@ -108,6 +112,7 @@ const Form = () => {
             fullWidth
             padding="1rem"
             isDisabled={mutationForm.isPending}
+            dataTestId="submitSimulation"
           >
             {mutationForm.isPending ? 'Simulating...' : 'Simulate'}
           </Button>

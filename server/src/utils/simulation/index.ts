@@ -11,11 +11,11 @@ import { sampleDemand } from '@/utils';
 import seedrandom from 'seedrandom';
 
 // Helper function to check if a day is within the DST period
-function isDST(dayOfYear: number) {
-  const dstStart = 71; // March 12, 2023 (day 71, 0-based)
-  const dstEnd = 309; // November 5, 2023 (day 309, 0-based)
+const isDST = (dayOfYear: number) => {
+  const dstStart = 71;
+  const dstEnd = 309;
   return dayOfYear >= dstStart && dayOfYear < dstEnd;
-}
+};
 
 // Main simulation function
 export const runSimulation = ({

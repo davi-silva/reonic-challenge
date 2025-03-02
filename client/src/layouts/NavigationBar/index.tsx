@@ -7,7 +7,7 @@ import styles from './index.module.scss';
 
 const NavigationBar = () => {
   return (
-    <nav className={styles.nav} data-testd="navbar">
+    <nav className={styles.nav} data-testid="navbar">
       <div className={styles.container}>
         <Link href="/" className={styles.brand}>
           <h1>Reonic Challenge</h1>

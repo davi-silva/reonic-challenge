@@ -15,6 +15,7 @@ const Input: FC<InputProps> = ({
   type,
   errorMessage,
   width,
+  dataTestId,
   ...rest
 }) => {
   const stylesDisabled = disabled ? styles.disabled : '';
@@ -39,6 +40,7 @@ const Input: FC<InputProps> = ({
         style={{
           width,
         }}
+        data-testid={dataTestId}
         {...rest}
       />
       {errorMessage && (
