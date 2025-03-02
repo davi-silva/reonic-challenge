@@ -5,12 +5,18 @@ const regex = /[^0-9.-]/g;
 
 const SimulateEV = z
   .object({
-    arrivalMultiplier: z.string(),
-    consumption: z.string(),
+    arrivalMultiplier: z
+      .string()
+      .min(1, { message: 'Arrival Multipler must be a number' }),
+    consumption: z.string().min(1, { message: 'Consumption must be a number' }),
     chargePoints: z.array(
       z.object({
-        count: z.string(),
-        power: z.string(),
+        count: z
+          .string()
+          .min(1, { message: 'Number of Charge Points must be a number' }),
+        power: z
+          .string()
+          .min(1, { message: 'Charging Power must be a number' }),
       })
     ),
   })

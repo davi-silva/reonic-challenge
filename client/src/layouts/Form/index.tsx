@@ -26,8 +26,6 @@ const Form = () => {
 
   const styleMainButton = results ? styles.mainButtonsRow : '';
 
-  console.log({ errors });
-
   return (
     <form
       onSubmit={handleSubmit(handleSubmitSimulation)}
@@ -51,11 +49,6 @@ const Form = () => {
       />
       <div className={styles.inputsGrid}>
         {fields.map((_field, index) => {
-          console.log({
-            errorsChargingpoint: errors.chargePoints
-              ? errors.chargePoints[index]
-              : '',
-          });
           return (
             <Fragment key={index}>
               <Input
